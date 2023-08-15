@@ -4,9 +4,9 @@ require_once('views/header.php');
 <main>
 
     <?php
-    require_once("utilities/DBConn.php");
-    $dbconn = new DBConn();
-    $dbconn->connect();
+    require_once('controllers/HomePageController.php');
+    $homePageController = new HomePageController();
+    $homePageController->getTopMovie();
     ?>
 </main>
 <?php
