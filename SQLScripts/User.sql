@@ -1,4 +1,4 @@
-CREATE TABLE User (
+CREATE TABLE  if not exists  User (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(25) NOT NULL UNIQUE,
     email VARCHAR(320) NOT NULL UNIQUE,

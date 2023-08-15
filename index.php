@@ -8,8 +8,12 @@
 </head>
 
 <body>
-    <h1 class="text-red-500 text-3xl">Hello</h1>
-    
+    <?php
+    require_once("utilities/DBConn.php");
+    $dbconn = new DBConn();
+    $dbconn->connect();
+    ?>
+
     <script src="https://cdn.tailwindcss.com"></script>
 </body>
 
