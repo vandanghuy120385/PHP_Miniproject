@@ -12,14 +12,10 @@ class DBConn
         if (!$this->conn) {
             echo ('Connection failed: ' . mysqli_connect_error());
         }
-        echo 'connected successfully';
-
         $query = "CREATE DATABASE IF NOT EXISTS imdb";
-        if (mysqli_query($this->conn, $query)) {
-            echo "DATABASE CREATED SUCCESSFULLY\n";
-        } else {
+        if (!mysqli_query($this->conn, $query)) {
             echo "Error: " . mysqli_error($this->conn);
-        }
+        } 
         $db_selected = mysqli_select_db($this->conn,$database);
         if (!$db_selected){
             die("failed using imdb");
