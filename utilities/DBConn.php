@@ -49,4 +49,7 @@ class DBConn
         mysqli_close($this->conn);
         // echo $query;
     }
+    public function getQuery($query){
+        return mysqli_query($this->conn,$query);
+    }
 }
