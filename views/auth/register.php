@@ -85,8 +85,6 @@ require __DIR__. '/../header.php';
         </div>
     </div>
 </div>
-
 <?php
-
-require __DIR__. '/../footer.php';
+require __DIR__.'/../footer.php';
 ?>
