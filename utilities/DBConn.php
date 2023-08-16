@@ -6,7 +6,7 @@ class DBConn
     {
         $servername = 'localhost';
         $username = 'root';
-        $password = '15112002'; // change your password here
+        $password = ''; // change your password here
         $database = 'imdb';
         $this->conn = mysqli_connect($servername, $username, $password);
         if (!$this->conn) {

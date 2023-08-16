@@ -6,11 +6,13 @@
             <?php
             foreach($data as $row){
             ?>
+            <a href = "?mod=movie&act=detail&id=<?php echo $row['movie_id'];?>">
             <div class="flex flex-col max-w-[280px] mx-2 px-2 py-1 justify-center" id="<?php echo $row['movie_id']?>">
                 <img src="<?php echo $row['poster']?>" alt="<?php echo $row['title']?>" width="185px" height="274px">
-                <h2 class="flex flex-wrap"><?php echo $row['title']?></h2>
+                <h2 class="flex flex-wrap"><?php echo $row['title'] ?></h2>
                 <p>Imdb: <?php echo $row['imdb_rating']?></p>
             </div>
+            </a>
             <?php } ?>
         </div>
     </div>
