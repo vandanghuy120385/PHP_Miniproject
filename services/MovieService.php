@@ -1,5 +1,5 @@
 <?php
-    require_once('utilities/DBConn.php');
+    require_once('/var/www/test/utilities/DBConn.php');
     class MovieService {
         var $dbConn;
         public function __construct()
@@ -15,7 +15,6 @@
 
         public function getMovieByName($name){
             $query = "SELECT * FROM Movie WHERE title LIKE '%" . $name . "%'";
-            echo $name;
             $data = $this->dbConn->getQuery($query);
             return $data;
         }

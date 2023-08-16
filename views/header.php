@@ -17,7 +17,7 @@
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
                 </a>
                 <div class="flex md:order-1">
-                    <form action="views/search/index.php" method="get">
+                    <form action="?mod=user&act=search" method="get">
                         <div class="relative">
                             <input type="text" id="search-navbar" name="name" class="w-[600px] p-2 pl-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
                             <button class="absolute top-3 right-2 px-2" type="submit">

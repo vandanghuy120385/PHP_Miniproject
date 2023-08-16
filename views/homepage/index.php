@@ -1,15 +1,12 @@
-<?php
-require_once('views/header.php');
-?>
-<main>
 
-    <?php
-    require_once('views/homepage/TopMovie.php');
-    ?>
+<?php require 'views/header.php' ?>
+
+<?php
+require_once('views/homepage/TopMovie.php');
+?>
     <?php
     require_once('views/homepage/WatchList.php');
     ?>
-</main>
-<?php
-require_once('views/footer.php');
-?>
+
+<?php require 'views/footer.php' ?>
+
