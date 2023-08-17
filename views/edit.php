@@ -7,13 +7,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit</title>
     <style>
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
 
+        label {
+            align-items: center;
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-left: 30px;
+        }
+
+        input[type="text"].form-control {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-left: 30px;
+        }
+
+        button.btn.btn-primary {
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
 <body>
     <div class="container">
-    <h3 align="center">UPDATE INFORMATION</h3>
+    <h1 align="center" style="font-size:xx-large;">UPDATE INFORMATION</h1>
     <?php 
         if (isset($_COOKIE['msg'])) {
     ?>
