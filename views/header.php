@@ -2,10 +2,7 @@
 require __DIR__ . '/../controllers/AuthController.php';
 $authController = new AuthController();
 $is_user_logged_in = $authController->is_user_logged_in();
-if($is_user_logged_in){
-    header("Location: http://localhost:8080/PHP_Miniproject/");
-    die();
-}
+echo "<h1>$is_user_logged_in</h1>";
 ?>
 
 <!DOCTYPE html>
