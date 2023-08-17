@@ -1,4 +1,5 @@
 <?php
+
     require_once('services/MovieService.php');
     class HomePageController{
         var $movieService;

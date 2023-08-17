@@ -1,6 +1,5 @@
 <?php
 
-
 const DEFAULT_VALIDATION_ERRORS = [
     'required' => 'The %s is required',
     'email' => 'The %s is not a valid email address',
@@ -210,8 +209,8 @@ function is_unique(array $data, string $field, string $table, string $column): b
     }
 
     $sql = "SELECT $column FROM $table WHERE $column = ?";
-
-    $stmt = db()->prepare($sql);
+    $db = new DBConn();
+    $stmt = $db->conn->prepare($sql);
     $stmt->bind_param("s", $data[$field]);
 
     $stmt->execute();

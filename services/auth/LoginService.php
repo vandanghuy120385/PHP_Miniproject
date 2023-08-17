@@ -1,14 +1,10 @@
 
 <?php
-
-require_once __DIR__ . "/auth/helper.php";
-require_once __DIR__ . "/auth/flash.php";
-require_once __DIR__ . "/auth/filter.php";
-require_once __DIR__ . "/AuthService.php";
+require_once('AuthService.php');
 
 $authService = new AuthService();
 if ($authService->is_user_logged_in()) {
-    redirect_to('index.php');
+    redirect_to( '/../../PHP_Miniproject');
 }
 
 $inputs = [];
@@ -18,7 +14,8 @@ if (is_post_request()) {
 
     [$inputs, $errors] = filter($_POST, [
         'username' => 'string | required',
-        'password' => 'string | required'
+        'password' => 'string | required',
+        'remember_me' => 'string'
     ]);
 
     if ($errors) {
@@ -26,7 +23,7 @@ if (is_post_request()) {
     }
 
     // if login fails
-    if (!$authService->login($inputs['username'], $inputs['password'])) {
+    if (!$authService->login($inputs['username'], $inputs['password'], isset($inputs['remember_me']))) {
 
         $errors['login'] = 'Invalid username or password';
 
@@ -36,8 +33,7 @@ if (is_post_request()) {
         ]);
     }
     // login successfully
-    redirect_to('index.php');
-
+    redirect_to('/../../PHP_Miniproject');
 } else if (is_get_request()) {
     [$errors, $inputs] = session_flash('errors', 'inputs');
 }

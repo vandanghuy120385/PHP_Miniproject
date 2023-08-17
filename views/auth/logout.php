@@ -1,2 +1,3 @@
 <?php
-logout();
+
+require __DIR__ .'/../../controllers/LogOutController.php';

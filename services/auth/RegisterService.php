@@ -1,28 +1,20 @@
 
 <?php
-
-
-require_once __DIR__ . "/auth/helper.php";
-require_once __DIR__ . "/auth/filter.php";
-require_once __DIR__ . "/auth/flash.php";
-require_once __DIR__ . "/AuthService.php";
+require_once('AuthService.php');
 
 
 $authService = new AuthService();
-
-
 if ($authService->is_user_logged_in()) {
-    redirect_to('index.php');
+    redirect_to( '/../../PHP_Miniproject');
 }
 
 $errors = [];
 $inputs = [];
-
 if (is_post_request()) {
 
     $fields = [
-        'username' => 'string | required | alphanumeric | between: 3, 25 | unique: users, username',
-        'email' => 'email | required | email | unique: users, email',
+        'username' => 'string | required | alphanumeric | between: 3, 25 | unique: user, username',
+        'email' => 'email | required | email | unique: user, email',
         'password' => 'string | required | secure',
         'password2' => 'string | required | same: password',
         'agree' => 'string | required'
@@ -53,9 +45,7 @@ if (is_post_request()) {
             'login.php',
             'Your account has been created successfully. Please login here.'
         );
-
     }
-
 } else if (is_get_request()) {
     [$inputs, $errors] = session_flash('inputs', 'errors');
 }

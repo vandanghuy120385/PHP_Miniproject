@@ -1,7 +1,10 @@
 <?php
 
-require __DIR__. '/../header.php';
+require __DIR__.'/../../controllers/RegisterController.php';
+require __DIR__ . '/../header.php';
 
+?>
+<?php
 /**
  * Return the error class if error is found in the array $errors
  *
@@ -34,7 +37,7 @@ function error_class(array $errors, string $field): string
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form action="register.php" method="post">
+            <form action="<?php $_PHP_SELF ?>" method="POST">
 
                 <div class="mt-6">
                     <label for="username" class="block text-sm font-medium leading-5 text-gray-700">Username</label>
@@ -82,8 +85,7 @@ function error_class(array $errors, string $field): string
                     <label for="agree">
                         <input type="checkbox" name="agree" id="agree" value="checked" <?= $inputs['agree'] ?? '' ?> /> I
                         agree
-                        with the
-                        <a href="#" title="term of services">term of services</a>
+                        with the term of services
                     </label>
                     <small class="text-red-500 text-xs italic"><?= $errors['agree'] ?? '' ?></small>
                 </div>
@@ -103,5 +105,5 @@ function error_class(array $errors, string $field): string
 
 
 <?php
-require __DIR__.'/../footer.php';
+require __DIR__ . '/../footer.php';
 ?>
