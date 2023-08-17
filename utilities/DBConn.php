@@ -6,7 +6,7 @@ class DBConn
     {
         $servername = 'localhost';
         $username = 'root';
-        $password = ''; // change your password here
+        $password = '15112002'; // change your password here
         $database = 'imdb';
         $this->conn = mysqli_connect($servername, $username, $password);
         if (!$this->conn) {
@@ -53,5 +53,10 @@ class DBConn
             $data[] = $row;
         }
         return $data;
+    }
+
+    public function inserQuery($query) : bool {
+        $result = mysqli_query($this->conn, $query);
+        return $result;
     }
 }

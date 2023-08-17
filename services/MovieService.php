@@ -1,5 +1,5 @@
 <?php
-    require_once('/var/www/test/utilities/DBConn.php');
+    require_once('utilities/DBConn.php');
     class MovieService {
         var $dbConn;
         public function __construct()
@@ -22,14 +22,21 @@
         public function getInfo($movie_id){
             $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where movie_id = '".$movie_id."';";
             $data = $this->dbConn->getQuery($query);
-            //echo $data['title'];
+            // echo $data['title'];
             return $data;
         }
-        public function getInfo($movie_id){
-            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where movie_id = '".$movie_id."';";
-            $data = $this->dbConn->getQuery($query)->fetch_assoc();
-            //echo $data['title'];
-            return $data;
+
+        public function getMovieByGenre($genre){
+            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where genre LIKE '%" . $genre . "%' LIMIT 15";
+            $data = $this->dbConn->getQuery($query);
+            // echo $data['title'];
+            return $data; 
+        }
+        public function insertMovie(Movie $movie) : bool{
+            $query = "INSERT INTO Movie VALUES (" . $movie->__toString() . ");";
+            echo $query;
+            $result = $this->dbConn->inserQuery($query);
+            return $result;
         }
     }
 ?>

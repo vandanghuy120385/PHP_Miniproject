@@ -11,7 +11,7 @@ require_once('/var/www/test/views/header.php');
                 foreach ($foundResult as $row) {
                 ?>
                     <div class="flex flex-col max-w-[280px] mx-2 px-2 py-1" id="<?php echo $row['movie_id'] ?>">
-                        <a href="detai">
+                        <a href="?mod=movie&act=detail&id=<?php echo $row['movie_id']; ?>">
                             <img src="<?php echo $row['poster'] ?>" alt="<?php echo $row['title'] ?>" width="185px" height="274px">
                         </a>
                         <h2 class="flex flex-wrap"><?php echo $row['title'] ?></h2>
