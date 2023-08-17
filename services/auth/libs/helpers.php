@@ -1,35 +1,6 @@
 <?php
 
 /**
- * Display a view
- *
- * @param string $filename
- * @param array $data
- * @return void
- */
-function view(string $filename, array $data = []): void
-{
-    // create variables from the associative array
-    foreach ($data as $key => $value) {
-        $$key = $value;
-    }
-    require_once __DIR__ . '/../inc/' . $filename . '.php';
-}
-
-
-/**
- * Return the error class if error is found in the array $errors
- *
- * @param array $errors
- * @param string $field
- * @return string
- */
-function error_class(array $errors, string $field): string
-{
-    return isset($errors[$field]) ? 'error' : '';
-}
-
-/**
  * Return true if the request method is POST
  *
  * @return boolean

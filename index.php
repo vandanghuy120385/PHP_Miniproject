@@ -1,5 +1,6 @@
 <?php
 require_once('views/header.php');
+require_once __DIR__ . '/controllers/AuthController.php'
 ?>
 <main>
 

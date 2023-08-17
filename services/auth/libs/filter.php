@@ -1,5 +1,8 @@
 <?php
 
+require_once "sanitization.php";
+require_once "validation.php";
+
 /**
  * Sanitize and validate data
  * @param array $data

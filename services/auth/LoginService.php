@@ -1,11 +1,15 @@
 
 <?php
 
-if (is_user_logged_in()) {
+require_once __DIR__ . "/auth/helper.php";
+require_once __DIR__ . "/auth/flash.php";
+require_once __DIR__ . "/auth/filter.php";
+require_once __DIR__ . "/AuthService.php";
+
+$authService = new AuthService();
+if ($authService->is_user_logged_in()) {
     redirect_to('index.php');
 }
-?>
-<?php
 
 $inputs = [];
 $errors = [];
@@ -22,7 +26,7 @@ if (is_post_request()) {
     }
 
     // if login fails
-    if (!login($inputs['username'], $inputs['password'])) {
+    if (!$authService->login($inputs['username'], $inputs['password'])) {
 
         $errors['login'] = 'Invalid username or password';
 

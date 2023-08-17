@@ -6,9 +6,10 @@ class DBConn
     {
         $servername = 'localhost';
         $username = 'root';
-        $password = '15112002'; // change your password here
+        $password = 'bui1minh2dung3.'; // change your password here
         $database = 'imdb';
-        $this->conn = mysqli_connect($servername, $username, $password);
+        $port = "3006";
+        $this->conn = mysqli_connect($servername, $username, $password, $database, $port);
         if (!$this->conn) {
             echo ('Connection failed: ' . mysqli_connect_error());
         }

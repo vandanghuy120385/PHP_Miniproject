@@ -1,8 +1,23 @@
 <?php
 
-// require __DIR__ . '/../src/login.php';
 require __DIR__. '/../header.php';
+
+/**
+ * Return the error class if error is found in the array $errors
+ *
+ * @param array $errors
+ * @param string $field
+ * @return string
+ */
+function error_class(array $errors, string $field): string
+{
+    return isset($errors[$field]) ? 'error' : '';
+}
 ?>
+
+
+
+
 <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <img class="mx-auto h-10 w-auto" src="https://www.svgrepo.com/show/301692/login.svg" alt="Workflow">
@@ -85,6 +100,8 @@ require __DIR__. '/../header.php';
         </div>
     </div>
 </div>
+
+
 <?php
 require __DIR__.'/../footer.php';
 ?>

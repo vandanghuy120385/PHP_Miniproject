@@ -1,11 +1,19 @@
 
 <?php
 
-if (is_user_logged_in()) {
+
+require_once __DIR__ . "/auth/helper.php";
+require_once __DIR__ . "/auth/filter.php";
+require_once __DIR__ . "/auth/flash.php";
+require_once __DIR__ . "/AuthService.php";
+
+
+$authService = new AuthService();
+
+
+if ($authService->is_user_logged_in()) {
     redirect_to('index.php');
 }
-?>
-<?php
 
 $errors = [];
 $inputs = [];
@@ -40,7 +48,7 @@ if (is_post_request()) {
         ]);
     }
 
-    if (register_user($inputs['email'], $inputs['username'], $inputs['password'])) {
+    if ($authService->register_user($inputs['email'], $inputs['username'], $inputs['password'])) {
         redirect_with_message(
             'login.php',
             'Your account has been created successfully. Please login here.'
