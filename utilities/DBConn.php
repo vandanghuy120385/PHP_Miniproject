@@ -59,4 +59,12 @@ class DBConn
         $result = mysqli_query($this->conn, $query);
         return $result;
     }
+    public function deleteQuery($query):bool{
+        $result = mysqli_query($this->conn, $query);
+        return $result;
+    }
+    public function updateQuery($query):bool{
+        $result = mysqli_query($this->conn, $query);
+        return $result;
+    }
 }
