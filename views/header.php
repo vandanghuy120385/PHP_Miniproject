@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +22,7 @@
                         Add new movie
                     </button>
                 </a>
-                <div class="flex md:order-1">
+                <div class="flex md:order-1 pt-4">
                     <form action="search.php?mod=movie&act=search" method="get" role="form">
                         <div class="relative">
                             <input type="text" id="search-navbar" name="name" class="w-[600px] p-2 pl-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
@@ -33,16 +34,30 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-search">
-                    <a href="#" class = "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <?php
+                    if (!$authController->is_user_logged_in()) {
+                        echo '
+                        <a href="views/auth/register.php" class = "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Sign up
-                    </a>
-                    <a href="#" class="text-blue-700 hover:underline focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        </a>
+                        <a href="#" class="text-blue-700 hover:underline focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Sign in
-                    </a>
+                        </a>';
+                    } else {
+                        $current_user = $authController->current_user();
+                        echo '<p class = "text-white">Welcome ' . $current_user . '<a href="views/auth/logout.php">Logout</a></p>';
+                    }
+                    ?>
+
                 </div>
+
+
+            </div>
             </div>
 
         </nav>
 
     </header>
+    <?php flash() ?>
