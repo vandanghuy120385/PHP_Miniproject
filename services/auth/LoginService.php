@@ -4,7 +4,7 @@ require_once('AuthService.php');
 
 $authService = new AuthService();
 if ($authService->is_user_logged_in()) {
-    redirect_to( '/../../PHP_Miniproject');
+    redirect_to( '/../..');
 }
 
 $inputs = [];
@@ -33,7 +33,7 @@ if (is_post_request()) {
         ]);
     }
     // login successfully
-    redirect_to('/../../PHP_Miniproject');
+    redirect_to('/../..');
 } else if (is_get_request()) {
     [$errors, $inputs] = session_flash('errors', 'inputs');
 }

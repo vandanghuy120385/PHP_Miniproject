@@ -1,7 +1,4 @@
 <?php
-require __DIR__ . '/../controllers/AuthController.php';
-$authController = new AuthController();
-$is_user_logged_in = $authController->is_user_logged_in();
 $mod = isset($_GET['mod']) ? $_GET['mod'] : 'movie';
 $act = isset($_GET['act']) ? $_GET['act'] : 'list';
 $name = isset($_GET['name']) ? $_GET['name'] : '';

@@ -1,7 +1,7 @@
 <?php
 
 require __DIR__.'/../../controllers/RegisterController.php';
-require __DIR__ . '/../header.php';
+require __DIR__ . '/inc/header.php';
 
 ?>
 <?php
@@ -105,5 +105,5 @@ function error_class(array $errors, string $field): string
 
 
 <?php
-require __DIR__ . '/../footer.php';
+require __DIR__ . '/inc/footer.php';
 ?>

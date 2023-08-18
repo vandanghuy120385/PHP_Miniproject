@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../../controllers/LoginController.php';
 
-require __DIR__. '/../header.php';
+require __DIR__. '/inc/header.php';
 
 
 ?>
@@ -79,5 +79,5 @@ require __DIR__. '/../header.php';
 
 <?php
 
-require __DIR__. '/../footer.php';
+require __DIR__. '/inc/footer.php';
 ?>

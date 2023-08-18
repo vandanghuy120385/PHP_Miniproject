@@ -1,12 +1,3 @@
-<!-- /**
-* Register a user
-*
-* @param string $email
-* @param string $username
-* @param string $password
-* @param bool $is_admin
-* @return bool
-*/ -->
 <?php
 session_start();
 require_once(__DIR__ . '/../../utilities/DBConn.php');
@@ -57,7 +48,18 @@ class AuthService
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+    function log_user_in(array $user): bool
+{
+    // prevent session fixation attack
+    if (session_regenerate_id()) {
+        // set username & id in the session
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['user_id'] = $user['id'];
+        return true;
+    }
 
+    return false;
+}
 
 
     function login(string $username, string $password, bool $remember = false): bool
@@ -67,17 +69,14 @@ class AuthService
         $user = $authService->find_user_by_username($username);
 
         // if user found, check the password
-        if ($user && password_verify($password, $user['password'])) {
-            session_regenerate_id();
+        if ($user  && password_verify($password, $user['password'])) {
 
-            // set username in the session
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['user_id']  = $user['id'];
-
+            $this->log_user_in($user);
+    
             if ($remember) {
                 $rememberMeService->remember_me($user['id']);
             }
-
+    
             return true;
         }
 
@@ -87,35 +86,28 @@ class AuthService
     {
         $rememberMeService = new RememberMeService();
 
-        $token = filter_input(INPUT_COOKIE, 'remember_me', FILTER_UNSAFE_RAW);
-
-        if ($token && $rememberMeService->token_is_valid($token)) {
-
-            $user = $rememberMeService->find_user_by_token($token);
-
-            if ($user) {
-                session_regenerate_id();
-
-                // set username in the session
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['user_id']  = $user['id'];
-                return true;
-            }
-        }
-        // check the session
         if (isset($_SESSION['username'])) {
             return true;
         }
-
+    
         // check the remember_me in cookie
-
+        $token = filter_input(INPUT_COOKIE, 'remember_me', FILTER_UNSAFE_RAW);
+    
+        if ($token && $rememberMeService->token_is_valid($token)) {
+    
+            $user = $rememberMeService->find_user_by_token($token);
+    
+            if ($user) {
+                return $this->log_user_in($user);
+            }
+        }
         return false;
     }
     function require_login(): void
     {
         $authService = new AuthService();
         if (!$authService->is_user_logged_in()) {
-            redirect_to('/../../PHP_Miniproject');
+            redirect_to('/../../views/auth/login.php');
         }
     }
     function current_user()
@@ -147,7 +139,7 @@ class AuthService
             // remove all session data
             session_destroy();
 
-            redirect_to('/../../PHP_Miniproject');
+            redirect_to('/../../views/auth/login.php');
         }
     }
 }
