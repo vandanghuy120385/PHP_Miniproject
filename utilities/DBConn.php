@@ -15,9 +15,9 @@ class DBConn
         $query = "CREATE DATABASE IF NOT EXISTS imdb";
         if (!mysqli_query($this->conn, $query)) {
             echo "Error: " . mysqli_error($this->conn);
-        } 
-        $db_selected = mysqli_select_db($this->conn,$database);
-        if (!$db_selected){
+        }
+        $db_selected = mysqli_select_db($this->conn, $database);
+        if (!$db_selected) {
             die("failed using imdb");
         }
     }
@@ -45,7 +45,18 @@ class DBConn
         mysqli_close($this->conn);
         // echo $query;
     }
-    public function getQuery($query){
-        return mysqli_query($this->conn,$query);
+    public function getQuery($query)
+    {
+        $result =  mysqli_query($this->conn, $query);
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    public function inserQuery($query) : bool {
+        $result = mysqli_query($this->conn, $query);
+        return $result;
     }
 }

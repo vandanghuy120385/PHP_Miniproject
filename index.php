@@ -1,14 +1,52 @@
-<?php
-require_once('views/header.php');
-?>
-<main>
 
-    <?php
-    require_once('controllers/HomePageController.php');
-    $homePageController = new HomePageController();
-    $homePageController->getTopMovie();
-    ?>
-</main>
+
 <?php
-require_once('views/footer.php');
+$mod = isset($_GET['mod']) ? $_GET['mod'] : 'movie';
+$act = isset($_GET['act']) ? $_GET['act'] : 'list';
+$name = isset($_GET['name']) ? $_GET['name'] : '';
+switch ($mod) {
+
+    case 'movie':
+        require_once('controllers/HomePageController.php');
+        $homepage_controller = new HomePageController();
+        switch ($act) {
+            case 'list':
+                $homepage_controller->getTopMovie();
+                break;
+            case 'add':
+                $homepage_controller->add();
+                break;
+            case 'store':
+                $homepage_controller->store();
+                break;
+            case 'detail':
+                $homepage_controller->getInfo();
+                break;
+            case 'search':
+                $homepage_controller->search($name);
+                break;
+                // case 'delete':
+                // $homepage_controller->delete();
+                // break;
+            default:
+                echo "<br>không có gì hết.";
+                break;
+        }
+        break;
+
+    case 'user':
+        require_once('controllers/SearchController.php');
+        $seachController = new SearchController();
+
+        switch ($act) {
+            case 'search':
+                $seachController->searchByName();
+                break;
+
+            default:
+                echo "<br>không có gì hết.";
+                break;
+        }
+        break;
+}
 ?>
