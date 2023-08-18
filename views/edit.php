@@ -59,11 +59,11 @@
         <form action="?mod=movie&act=update" method="POST" role="form">
             <div class="form-group">
                 <label for="">Movie ID</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's id" name="movie_id" value="<?= $data['movie_id']?>" readonly>
+                <input type="text" class="form-control" id="" placeholder="Movie's id" name="movie_id" value="<?php echo $data['movie_id']?>" readonly>
             </div>
             <div class="form-group">
                 <label for="">Title</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's title" name="title" value="<?= $data['title']?>">
+                <input type="text" class="form-control" id="" placeholder="Movie's title" name="title" value="<?php echo $data['title']?>">
             </div>
             <div class="form-group">
                 <label for="">Film Url</label>

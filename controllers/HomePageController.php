@@ -34,7 +34,8 @@
        }
        public function edit(){
             $movie_id = isset($_GET['id'])?$_GET['id']:'123abc';
-            $data = $this->movieService->getInfo($movie_id);
+            $dataArray = $this->movieService->getInfo($movie_id);
+            $data = $dataArray[0];
             require_once("views/edit.php");
        }
        public function update(){
