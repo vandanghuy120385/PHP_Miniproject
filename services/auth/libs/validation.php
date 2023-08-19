@@ -107,7 +107,7 @@ function is_min(array $data, string $field, int $min): bool
         return true;
     }
 
-    return mb_strlen($data[$field]) >= $min;
+    return mb_strlen($data[$field],'utf8') >= $min;
 }
 
 /**
@@ -123,7 +123,7 @@ function is_max(array $data, string $field, int $max): bool
         return true;
     }
 
-    return mb_strlen($data[$field]) <= $max;
+    return mb_strlen($data[$field],'utf8') <= $max;
 }
 
 /**
@@ -139,7 +139,7 @@ function is_between(array $data, string $field, int $min, int $max): bool
         return true;
     }
 
-    $len = mb_strlen($data[$field]);
+    $len = mb_strlen($data[$field], 'utf8');
     return $len >= $min && $len <= $max;
 }
 
@@ -208,14 +208,19 @@ function is_unique(array $data, string $field, string $table, string $column): b
         return true;
     }
 
-    $sql = "SELECT $column FROM $table WHERE $column = ?";
+    // $sql = "SELECT $column FROM $table WHERE $column = ?";
+    $sql = "SELECT " . $column . " FROM User" . " WHERE " . $column . "=" . "'" . $data[$field] . "';"  ;
+    echo $sql, $data[$field];
     $db = new DBConn();
+    // $result = $db->getQuery($sql);
+    // return true;
     $stmt = $db->conn->prepare($sql);
-    $stmt->bind_param("s", $data[$field]);
+    if ($stmt !== false){
 
-    $stmt->execute();
-
-    $result = $stmt->get_result();
-
-    return $result->fetch_column() === false;
+        // $stmt->bind_param("s", $data[$field]);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row === null;
+    }
 }
