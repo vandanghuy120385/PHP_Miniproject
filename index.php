@@ -31,6 +31,7 @@ switch ($mod) {
 		break;
 		case 'delete':
 		$homepage_controller->delete();
+		break;
         case 'search':
             $homepage_controller->search($name);
             break;

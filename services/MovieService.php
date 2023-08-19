@@ -15,7 +15,7 @@
         }
 
         public function getMovieByName($name){
-            $query = "SELECT * FROM Movie WHERE title LIKE '%" . $name . "%'";
+            $query = "SELECT * FROM Movie WHERE title LIKE '%".$name."%';";
             $data = $this->dbConn->getQuery($query);
             return $data;
         }
