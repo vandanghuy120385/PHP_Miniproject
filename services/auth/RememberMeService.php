@@ -15,8 +15,8 @@ class RememberMeService
     function insert_user_token(int $user_id, string $selector, string $hashed_validator, string $expiry): bool
     {
         $user_token = new UserToken($user_id, $selector, $hashed_validator, $expiry);
-        $sql = 'INSERT INTO UserToken(user_id, selector, hashed_validator, expiry)
-            VALUES(?, ?, ?, ?)';
+        $sql = "INSERT INTO UserToken(user_id, selector, hashed_validator, expiry)
+            VALUES(?, ?, ?, ?)";
 
         $statement = $this->DBConn->conn->prepare($sql);
 
@@ -31,11 +31,11 @@ class RememberMeService
     }
     function find_user_token_by_selector(string $selector)
     {
-        $sql = 'SELECT id, selector, hashed_validator, user_id, expiry
+        $sql = "SELECT id, selector, hashed_validator, user_id, expiry
             FROM UserToken
-            WHERE selector = ? AND
+            WHERE selector = '?' AND
                 expiry >= now()
-            LIMIT 1';
+            LIMIT 1";
 
         $statement = $this->DBConn->conn->prepare($sql);
 
@@ -48,7 +48,7 @@ class RememberMeService
     }
     function delete_user_token(int $user_id): bool
     {
-        $sql = 'DELETE FROM UserToken WHERE user_id = ?';
+        $sql = "DELETE FROM UserToken WHERE user_id = ?";
         $statement = $this->DBConn->conn->prepare($sql);
 
         $statement->bind_param('i', $user_id);
@@ -58,28 +58,30 @@ class RememberMeService
     function find_user_by_token(string $token)
     {
         $tokens = parse_token($token);
-
+        echo $tokens;
         if (!$tokens) {
             return null;
         }
-
-        $sql = 'SELECT user.id, username
-        FROM user
-        INNER JOIN UserToken ON user_id = user.id
+        
+        $sql = "SELECT User.id, username
+        FROM User
+        INNER JOIN UserToken ON user_id = User.id
         WHERE selector = ? AND
             expiry > now()
-        LIMIT 1';
+        LIMIT 1";
         $statement = $this->DBConn->conn->prepare($sql);
-
-        $selector = $tokens[0];
-        $statement->bind_param('s', $selector);
-        $statement->execute();
-
-        $result = $statement->get_result();
-        // return user_id and username
-        return $result->fetch_assoc();
+        if ($statement != false) {
+            $selector = $tokens[0];
+            $isSuccess = $statement->bind_param('s', $selector);
+            if ($isSuccess === true) {
+                $statement->execute();
+                $result = $statement->get_result();
+                // return user_id and username
+                return $result->fetch_assoc();
+            }
+        }
     }
-    function token_is_valid(string $token) :bool
+    function token_is_valid(string $token): bool
     {
         [$selector, $validator] = parse_token($token);
         $tokens = $this->find_user_token_by_selector($selector);
@@ -107,5 +109,4 @@ class RememberMeService
             setcookie('remember_me', $token, $expired_seconds);
         }
     }
-    
 }

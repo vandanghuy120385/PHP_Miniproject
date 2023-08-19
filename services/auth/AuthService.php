@@ -19,7 +19,7 @@ class AuthService
     {
         $new_user = new User($username, $email, $password, $is_admin);
 
-        $sql = 'INSERT INTO user(username, email, password, is_admin)
+        $sql = 'INSERT INTO User(username, email, password, is_admin)
         VALUES(?, ?, ?, ?)';
 
         $stmt = $this->dbConn->conn->prepare($sql);
@@ -37,7 +37,7 @@ class AuthService
     function find_user_by_username(string $username)
     {
         $sql = 'SELECT id, username, password
-        FROM user
+        FROM User
         WHERE username=?';
 
         $stmt = $this->dbConn->conn->prepare($sql);
@@ -114,8 +114,8 @@ class AuthService
     {
         $authService = new AuthService();
         if ($authService->is_user_logged_in()) {
-            // return $_SESSION['username'];
-            return json_encode($_SESSION);
+            return $_SESSION['username'];
+            // return json_encode($_SESSION);
         }
         return null;
     }
