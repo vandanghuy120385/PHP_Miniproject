@@ -49,17 +49,17 @@ class AuthService
         return $result->fetch_assoc();
     }
     function log_user_in(array $user): bool
-{
-    // prevent session fixation attack
-    if (session_regenerate_id()) {
-        // set username & id in the session
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['user_id'] = $user['id'];
-        return true;
-    }
+    {
+        // prevent session fixation attack
+        if (session_regenerate_id()) {
+            // set username & id in the session
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['user_id'] = $user['id'];
+            return true;
+        }
 
-    return false;
-}
+        return false;
+    }
 
 
     function login(string $username, string $password, bool $remember = false): bool
@@ -72,11 +72,11 @@ class AuthService
         if ($user  && password_verify($password, $user['password'])) {
 
             $this->log_user_in($user);
-    
+
             if ($remember) {
                 $rememberMeService->remember_me($user['id']);
             }
-    
+
             return true;
         }
 
@@ -89,14 +89,14 @@ class AuthService
         if (isset($_SESSION['username'])) {
             return true;
         }
-    
+
         // check the remember_me in cookie
         $token = filter_input(INPUT_COOKIE, 'remember_me', FILTER_UNSAFE_RAW);
-    
+
         if ($token && $rememberMeService->token_is_valid($token)) {
-    
+
             $user = $rememberMeService->find_user_by_token($token);
-    
+
             if ($user) {
                 return $this->log_user_in($user);
             }

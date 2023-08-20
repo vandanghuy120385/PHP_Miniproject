@@ -1,4 +1,9 @@
 <?php
+if (!session_start()){
+    session_start();
+}
+?>
+<?php
 
     require_once('services/MovieService.php');
     class HomePageController{
@@ -41,7 +46,6 @@
        }
        public function update(){
         $data = $_POST;
-
         if (intval($data['released_year']) != $data['released_year'] || $data['released_year'] <= 0 ) {
             setcookie('msg', 'Released Year must be a integer value greater than 0.', time()+1);
             header('location: index.php?mod=movie&act=edit&id=' . $data['movie_id']);
@@ -62,6 +66,7 @@
                 header('location: index.php?mod=movie&act=list');
             }
         }
+
        }
         public function add(){
             require_once('views/add.php');
@@ -83,22 +88,26 @@
             $released_year  = $_POST['released_year'];
             $genre = $_POST['genre'];
             $poster = $_POST['poster'];
-            if (is_string($imdbRating)) {
+            if (is_string($imdbRating) && strlen($imdbRating) > 0) {
                 $_SESSION['imdbError'] = $errors['imdb_rating'];
                 $_SESSION['data'] = $_POST;
                 header('location: index.php?mod=movie&act=add');
             }
-            if (is_string($runtime)) {
+            if (is_string($runtime) && strlen($runtime) > 0) {
                 $_SESSION['runtimeError'] = $errors['runtime'];
+                $_SESSION['data'] = $_POST;
                 header('location: index.php?mod=movie&act=add');
             }
-            if (is_string($released_year)) {
+            if (is_string($released_year) && strlen($released_year) > 0) {
                 $_SESSION['releasedYearError'] = $errors['released_year'];
+                $_SESSION['data'] = $_POST;
                 header('location: index.php?mod=movie&act=add');
             }    
             $movie = new Movie($movie_id,$title,$film_url,$movie_type,$imdbRating,$runtime,$released_year,$genre,$poster);
             $isInsertSuccess = $this->movieService->insertMovie($movie);
             if ($isInsertSuccess == true){
+                $_SESSION['data'] = null;
+                setcookie('msg','thêm thành công',time()+1);
                 header('location: index.php?mod=movie');
             }
             else {

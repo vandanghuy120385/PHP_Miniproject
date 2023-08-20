@@ -6,7 +6,7 @@ class DBConn
     {
         $servername = 'localhost';
         $username = 'root';
-        $password = ''; // change your password here
+        $password = '15112002'; // change your password here
         $database = 'imdb';
 
         $port = "3306";

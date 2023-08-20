@@ -27,7 +27,8 @@
         }
         // update movie's detail information
         public function edit($data ){
-            $query =  "UPDATE Movie SET title = '".$data['title']."', film_url = '".$data['film_url']."', movie_type ='".$data['movie_type']."', imdb_rating = '".$data['imdb_rating']."',poster = '".$data['poster']."', released_year = '".$data['released_year']."', genre = '".$data['genre']."', runtime = '".$data['runtime']."' WHERE movie_id = '".$data['movie_id']."';";
+            $query =  "UPDATE Movie SET title = '".$data['title']."', film_url = '".$data['film_url']."', movie_type ='".$data['movie_type']."', imdb_rating = ".$data['imdb_rating'].",poster = '".$data['poster']."', released_year = ".$data['released_year'].", genre = '".$data['genre']."', runtime = ".$data['runtime']." WHERE movie_id = '".$data['movie_id']."';";
+            echo $query;
             $result = $this->dbConn->updateQuery($query);
             return $result;    
         }

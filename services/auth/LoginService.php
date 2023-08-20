@@ -4,7 +4,7 @@ require_once('AuthService.php');
 
 $authService = new AuthService();
 if ($authService->is_user_logged_in()) {
-    redirect_to( '/../..');
+    redirect_to('/../..');
 }
 
 $inputs = [];
