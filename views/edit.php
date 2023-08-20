@@ -40,11 +40,21 @@
             display: block;
             margin: 0 auto;
         }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-left: 30px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            border-radius: 5px;
+        }
     </style>
 </head>
+
 <body>
-<body>
-    <div class="container">
+
+
+<div class="container">
     <h1 align="center" style="font-size:xx-large;">UPDATE INFORMATION</h1>
     <?php 
         if (isset($_COOKIE['msg'])) {
@@ -63,35 +73,38 @@
             </div>
             <div class="form-group">
                 <label for="">Title</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's title" name="title" value="<?php echo $data['title']?>">
+                <input type="text" class="form-control" id="" placeholder="Movie's title" name="title" value="<?= $data['title']?>" required>
             </div>
             <div class="form-group">
                 <label for="">Film Url</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's url" name="film_url" value="<?= $data['film_url']?>">
+                <input type="text" class="form-control" id="" placeholder="Movie's url" name="film_url" value="<?= $data['film_url']?>" required>
             </div>
             <div class="form-group">
                 <label for="">Movie Type</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's type" name=" movie_type" value="<?= $data[' movie_type']?>">
+                <select name="type" required>
+                    <option value="tvSerie">TV Serie</option>
+                    <option value="Movie">Movie</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="">IMDB Rating</label>
-                <input type="text" class="form-control" id="" placeholder="imdb rating" name="imdb_rating" value="<?= $data['imdb_rating']?>">
+                <input type="text" class="form-control" id="" placeholder="imdb rating" name="imdb_rating" value="<?= $data['imdb_rating']?>" required>
             </div>
             <div class="form-group">
                 <label for="">Poster link</label>
-                <input type="text" class="form-control" id="" placeholder="Poster link" name="poster" value="<?= $data['poster']?>">
+                <input type="text" class="form-control" id="" placeholder="Poster link" name="poster" value="<?= $data['poster']?>" required>
             </div>
             <div class="form-group">
                 <label for="">Released Year</label>
-                <input type="text" class="form-control" id="" placeholder="Released Year" name="released_year" value="<?= $data['released_year']?>">
+                <input type="text" class="form-control" id="" placeholder="Released Year" name="released_year" value="<?= $data['released_year']?>" required>
             </div>
             <div class="form-group">
                 <label for="">Genre</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's genre" name="genre" value="<?= $data['genre']?>">
+                <input type="text" class="form-control" id="" placeholder="Movie's genre" name="genre" value="<?= $data['genre']?>" required>
             </div>
             <div class="form-group">
                 <label for="">Runtime</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's length" name="runtime" value="<?= $data['runtime']?>">
+                <input type="text" class="form-control" id="" placeholder="Movie's length" name="runtime" value="<?= $data['runtime']?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>

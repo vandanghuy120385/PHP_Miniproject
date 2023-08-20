@@ -40,15 +40,27 @@
        }
        public function update(){
             $data = $_POST;
-            //print_r($data);
-            $status = $this->movieService->edit($data);
-            if ($status==true) {
-				setcookie('msg','Sửa thành công',time()+1);
-				header('location: index.php?mod=movie');
-			} else {
-				setcookie('msg','Sửa thất bại.',time()+1);
-				header('location: index.php?mod=movie&act=list');
-			}
+
+            if (intval($data['released_year']) != $data['released_year'] || $data['released_year'] <= 0 ) {
+                setcookie('msg', 'Released Year must be a integer value greater than 0.', time()+1);
+                header('location: index.php?mod=movie&act=edit&id=' . $data['movie_id']);
+            } elseif (!is_numeric($data['runtime']) || $data['runtime']<= 0) {
+                setcookie('msg','Runtime must be a numeric value greater than 0.',time()+1);
+                header('location: index.php?mod=movie&act=edit&id=' . $data['movie_id']);
+            } elseif(!is_numeric($data['imdb_rating']) || ($data['imdb_rating']) <= 0 || ($data['imdb_rating']) >= 10){
+ 
+                setcookie('msg','The IMDB rating value must be an integer in the range from 0 to 10.',time()+1);
+                header('location: index.php?mod=movie&act=edit&id=' . $data['movie_id']);
+            } else{
+                $status = $this->movieService->edit($data);
+                if ($status==true) {
+                    setcookie('msg','Sửa thành công',time()+1);
+                    header('location: index.php?mod=movie');
+                } else {
+                    setcookie('msg','Sửa thất bại.',time()+1);
+                    header('location: index.php?mod=movie&act=list');
+                }
+            }
        }
         public function add(){
             require_once('views/add.php');

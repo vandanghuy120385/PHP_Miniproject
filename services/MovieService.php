@@ -21,7 +21,7 @@
         }
         // get movie's detail information
         public function getInfo($movie_id){
-            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where movie_id = '".$movie_id."';";
+            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre, movie_type, runtime, film_url from Movie where movie_id = '".$movie_id."';";
             $data = $this->dbConn->getQuery($query);
             return $data;
         }
