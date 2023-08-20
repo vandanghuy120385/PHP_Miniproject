@@ -8,21 +8,19 @@ class DBConn
         $username = 'root';
         $password = ''; // change your password here
         $database = 'imdb';
-<<<<<<< Updated upstream
-        $this->conn = mysqli_connect($servername, $username, $password);
-=======
-        $port = "3307";
+
+        $port = "3306";
         $this->conn = mysqli_connect($servername, $username, $password, $database, $port);
->>>>>>> Stashed changes
+
         if (!$this->conn) {
             echo ('Connection failed: ' . mysqli_connect_error());
         }
         $query = "CREATE DATABASE IF NOT EXISTS imdb";
         if (!mysqli_query($this->conn, $query)) {
             echo "Error: " . mysqli_error($this->conn);
-        }
-        $db_selected = mysqli_select_db($this->conn, $database);
-        if (!$db_selected) {
+        } 
+        $db_selected = mysqli_select_db($this->conn,$database);
+        if (!$db_selected){
             die("failed using imdb");
         }
     }
