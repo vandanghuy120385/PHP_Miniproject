@@ -1,5 +1,5 @@
 <?php
-require_once('/var/www/test/views/header.php');
+require_once('views/header.php');
 ?>
 <main>
 
@@ -24,5 +24,5 @@ require_once('/var/www/test/views/header.php');
 </main>
 
 <?php
-require_once('/var/www/test/views/footer.php');
+require_once('footer.php');
 ?>

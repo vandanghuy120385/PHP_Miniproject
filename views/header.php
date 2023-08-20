@@ -59,4 +59,4 @@ $authController->require_login();
         </nav>
 
     </header>
-    <?php flash() ?>
+

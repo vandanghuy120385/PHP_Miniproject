@@ -42,4 +42,5 @@ switch ($mod) {
 			echo "<br>không có gì hết.";
 			break;
 		}
+
 }
