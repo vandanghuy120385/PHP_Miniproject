@@ -33,7 +33,7 @@ class RememberMeService
     {
         $sql = "SELECT id, selector, hashed_validator, user_id, expiry
             FROM UserToken
-            WHERE selector = '?' AND
+            WHERE selector = ? AND
                 expiry >= now()
             LIMIT 1";
 
