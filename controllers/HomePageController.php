@@ -88,17 +88,17 @@ if (!session_start()){
             $released_year  = $_POST['released_year'];
             $genre = $_POST['genre'];
             $poster = $_POST['poster'];
-            if (is_string($imdbRating) && strlen($imdbRating) > 0) {
+            if (is_string($imdbRating) || floatval($imdbRating) < 0) {
                 $_SESSION['imdbError'] = $errors['imdb_rating'];
                 $_SESSION['data'] = $_POST;
                 header('location: index.php?mod=movie&act=add');
             }
-            if (is_string($runtime) && strlen($runtime) > 0) {
+            if (is_string($runtime) || intval($runtime) < 0) {
                 $_SESSION['runtimeError'] = $errors['runtime'];
                 $_SESSION['data'] = $_POST;
                 header('location: index.php?mod=movie&act=add');
             }
-            if (is_string($released_year) && strlen($released_year) > 0) {
+            if (is_string($released_year) || intval($released_year) < 0) {
                 $_SESSION['releasedYearError'] = $errors['released_year'];
                 $_SESSION['data'] = $_POST;
                 header('location: index.php?mod=movie&act=add');

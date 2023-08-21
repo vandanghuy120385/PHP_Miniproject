@@ -48,7 +48,7 @@
         public function insertMovie(Movie $movie) : bool{
             $query = "INSERT INTO Movie VALUES (" . $movie->__toString() . ");";
             echo $query;
-            $result = $this->dbConn->inserQuery($query);
+            $result = $this->dbConn->insertQuery($query);
             return $result;
         }
     }

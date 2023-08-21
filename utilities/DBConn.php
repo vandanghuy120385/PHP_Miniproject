@@ -1,5 +1,6 @@
 <?php
-class DBConn
+require_once('IDatabase.php');
+class DBConn implements IDatabase
 {
     var $conn;
     public function __construct()
@@ -58,7 +59,7 @@ class DBConn
         return $data;
     }
 
-    public function inserQuery($query) : bool {
+    public function insertQuery($query) : bool {
         $result = mysqli_query($this->conn, $query);
         return $result;
     }

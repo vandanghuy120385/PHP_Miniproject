@@ -1,16 +1,15 @@
 <?php
 class Movie
 {
-    var $movie_id;
-    var $title;
-    var $film_url;
-    var $movie_type;
-    var $imdb_rating;
-    var $runtime;
-    var $released_year;
-    var $genre;
-    var $poster;
-
+    private $movie_id;
+    private $title;
+    private $film_url;
+    private $movie_type;
+    private $imdb_rating;
+    private $runtime;
+    private $released_year;
+    private $genre;
+    private $poster;
     public function __construct($movie_id,$title, $film_url, $movie_type, $imdb_rating, $runtime, $released_year, $genre, $poster)
     {
         $this->movie_id = $movie_id;

@@ -56,7 +56,7 @@
 <body>
 
 
-    <div class="container">
+    <div class="mx-auto p-4 max-w-screen-xl pt-10">
         <h1 align="center" style="font-size:xx-large;">UPDATE INFORMATION</h1>
         <?php
         if (isset($_COOKIE['msg'])) {
