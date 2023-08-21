@@ -107,6 +107,9 @@ if (!session_start()){
             $isInsertSuccess = $this->movieService->insertMovie($movie);
             if ($isInsertSuccess == true){
                 $_SESSION['data'] = null;
+                $_SESSION['imdbError'] = '';
+                $_SESSION['runtimeError'] = '';
+                $_SESSION['releasedYearError'] ='';
                 setcookie('msg','thêm thành công',time()+1);
                 header('location: index.php?mod=movie');
             }
