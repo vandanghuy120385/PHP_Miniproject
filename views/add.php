@@ -17,11 +17,11 @@
             <!-- <input type="text" name="movie_type" id="movie_type" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required /> -->
             <label for="movie_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Movie Type</label>
             <select name="movie_type" id="movie_type" class="py-2.5 px-2 mt-4 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option <?php echo $movie = isset($_SESSION['data']['movie_type'])  ? "" : "selected"  ?>>Choose a type</option>
                 <option value="tv_series" <?php $tvSeries = isset($_SESSION['data']['movie_type']) ? $_SESSION['data']['movie_type'] : "";
                                             echo $tvSeries === "TV Series" ? "selected" : '' ?>>TV Series</option>
                 <option value="movie" <?php $movie = isset($_SESSION['data']['movie_type']) ? $_SESSION['data']['movie_type'] : "";
                                         echo $movie === "Movie" ? "selected" : '' ?>>Movie</option>
-                <option <?php echo $movie = isset($_SESSION['data']['movie_type'])  ? "" : "selected"  ?>>Choose a type</option>
                 <option value="tvMiniSeries" <?php if (isset($_SESSION['data']['movie_type']) && $_SESSION['data']['movie_type'] === 'tvMiniSeries') echo 'selected'; ?>> tvMiniSeries</option>
                 <option value="tvSpecial" <?php if (isset($_SESSION['data']['movie_type']) && $_SESSION['data']['movie_type'] === 'tvSpecial') echo 'selected'; ?>> tvSpecial</option>
                 <option value="tvMovie" <?php if (isset($_SESSION['data']['movie_type']) && $_SESSION['data']['movie_type'] === 'tvMovie') echo 'selected'; ?>> tvMovie</option>
