@@ -65,9 +65,9 @@ class RememberMeService
             return null;
         }
 
-        $sql = 'SELECT users.id, username
+        $sql = 'SELECT User.id, username
             FROM User
-            INNER JOIN UserToken ON user_id = user.id
+            INNER JOIN UserToken ON user_id = User.id
             WHERE selector = :selector AND
                 expiry > now()
             LIMIT 1';
