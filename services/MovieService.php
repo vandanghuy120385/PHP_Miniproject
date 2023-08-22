@@ -8,9 +8,8 @@
             //$this->dbConn->connect();
         }
         public function getTopMovie(){
-            $query = "SELECT movie_id, title, imdb_rating, poster from Movie where released_year = 2022 and imdb_rating >= 7 order by imdb_rating desc limit 5;";
+            $query = "SELECT movie_id, title, imdb_rating, poster from Movie where released_year >= 2000 and imdb_rating >= 7 order by imdb_rating desc limit 5;";
             $data = $this->dbConn->getQuery($query);
-
             return $data;
         }
 
@@ -34,8 +33,7 @@
         }
         // delete movie 
         public function delete($movie_id){
-            $query = "DELETE FROM Movie WHERE movie_id = '".$movie_id."'";
-            $result = $this->dbConn->deleteQuery($query);
+            $result = $this->dbConn->deleteQuery($movie_id);
             return $result; 
         }
 

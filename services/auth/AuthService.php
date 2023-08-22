@@ -20,33 +20,30 @@ class AuthService
         $new_user = new User($username, $email, $password, $is_admin);
 
         $sql = 'INSERT INTO User(username, email, password, is_admin)
-        VALUES(?, ?, ?, ?)';
+            VALUES(:username, :email, :password, :is_admin)';
 
-        $stmt = $this->dbConn->conn->prepare($sql);
+        $statement = $this->dbConn->conn->prepare($sql);
 
-        $hashed_password = password_hash($new_user->getPassword(), PASSWORD_BCRYPT);
-        $is_admin_int = (int)$new_user->getIsAdmin();
-        $insert_username = $new_user->getUsername();
-        $insert_email = $new_user->getEmail();
+        $statement->bindValue(':username', $new_user->getUsername(), PDO::PARAM_STR);
+        $statement->bindValue(':email', $new_user->getEmail(), PDO::PARAM_STR);
+        $statement->bindValue(':password', password_hash($new_user->getPassword(), PASSWORD_BCRYPT), PDO::PARAM_STR);
+        $statement->bindValue(':is_admin', (int)$new_user->getIsAdmin(), PDO::PARAM_INT);
 
-        $stmt->bind_param("sssi", $insert_username, $insert_email, $hashed_password, $is_admin_int);
 
-        return $stmt->execute();
+        return $statement->execute();
     }
 
     function find_user_by_username(string $username)
     {
         $sql = 'SELECT id, username, password
-        FROM User
-        WHERE username=?';
+            FROM User
+            WHERE username=:username';
 
-        $stmt = $this->dbConn->conn->prepare($sql);
-        $stmt->bind_param("s", $username);
+        $statement = $this->dbConn->conn->prepare($sql);
+        $statement->bindValue(':username', $username, PDO::PARAM_STR);
+        $statement->execute();
 
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
     function log_user_in(array $user): bool
     {

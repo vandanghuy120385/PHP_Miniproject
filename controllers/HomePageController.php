@@ -13,11 +13,14 @@ if (!session_start()){
         }
         public function getTopMovie(){
             $data = $this->movieService->getTopMovie();
-            $dramaRomanceData = $this->movieService->getMovieByGenre("Drama, Romance");
-            $actionData = $this -> movieService->getMovieByGenre("Action");
-            $comedyData = $this -> movieService->getMovieByGenre("Comedy");
-            $documentData = $this -> movieService -> getMovieByGenre("Documentary");
-            $scifiData = $this -> movieService -> getMovieByGenre("Sci-fi");
+            //print_r($data);
+
+            
+            // $dramaRomanceData = $this->movieService->getMovieByGenre("Drama, Romance");
+            // $actionData = $this -> movieService->getMovieByGenre("Action");
+            // $comedyData = $this -> movieService->getMovieByGenre("Comedy");
+            // $documentData = $this -> movieService -> getMovieByGenre("Documentary");
+            // $scifiData = $this -> movieService -> getMovieByGenre("Sci-fi");
             require_once('views/homepage/index.php');
         }
         public function getInfo(){

@@ -208,19 +208,12 @@ function is_unique(array $data, string $field, string $table, string $column): b
         return true;
     }
 
-    // $sql = "SELECT $column FROM $table WHERE $column = ?";
-    $sql = "SELECT " . $column . " FROM User" . " WHERE " . $column . "=" . "'" . $data[$field] . "';"  ;
-    echo $sql, $data[$field];
-    $db = new DBConn();
-    // $result = $db->getQuery($sql);
-    // return true;
-    $stmt = $db->conn->prepare($sql);
-    if ($stmt !== false){
+    $sql = "SELECT $column FROM $table WHERE $column = :value";
+    $dbConn = new DBConn();
+    $stmt = $dbConn->conn->prepare($sql);
+    $stmt->bindValue(":value", $data[$field]);
 
-        // $stmt->bind_param("s", $data[$field]);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row === null;
-    }
+    $stmt->execute();
+
+    return $stmt->fetchColumn() === false;
 }
