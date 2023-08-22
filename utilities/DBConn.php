@@ -44,7 +44,6 @@ class DBConn implements IDatabase
          return false;
     }
     public function deleteQuery($movie_id):bool{
-
         try {
             $stmt = $this->conn->prepare("DELETE FROM Movie WHERE movie_id = :movie_id");
             $stmt->bindParam(':movie_id',$movie_id);
@@ -87,10 +86,33 @@ class DBConn implements IDatabase
         
     }
     
-    public function updateQuery($query):bool{
-         // $result = mysqli_query($this->conn, $query);
-         // return $result;
-         return false;
+    public function updateQuery($data):bool{
+        try {
+            $stmt = $this->conn->prepare("UPDATE Movie SET title = :title , film_url = :film_url, movie_type = :movie_type, imdb_rating = :imdb_rating, poster = :poster, released_year = :released_year, genre = :genre, runtime =:runtime WHERE movie_id = :movie_id");
+            
+            $stmt->bindParam(':movie_id',$data['movie_id']);
+            $stmt->bindParam(':title',$data['title']);
+            $stmt->bindParam(':film_url',$data['film_url']);
+            $stmt->bindParam(':movie_type',$data['movie_type']);
+            $stmt->bindParam(':imdb_rating',$data['imdb_rating']);
+            $stmt->bindParam(':poster',$data['poster']);
+            $stmt->bindParam(':released_year',$data['released_year']);
+            $stmt->bindParam(':genre',$data['genre']);
+            $stmt->bindParam(':runtime',$data['runtime']);
+
+            $stmt->execute();
+            
+            $rowCount = $stmt->rowCount(); // Number of affected rows
+            if ($rowCount > 0) {
+                return true; // Query executed successfully
+            } else {
+                return false; // No rows affected, query may not have matched any records
+            }
+        } catch (PDOException $e) {
+            // Handle the exception or log the error
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
  
     }
 }
