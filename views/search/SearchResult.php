@@ -24,5 +24,5 @@ require_once('views/header.php');
 </main>
 
 <?php
-require_once('footer.php');
+require_once('views/footer.php');
 ?>

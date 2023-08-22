@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,6 +41,7 @@
             display: block;
             margin: 0 auto;
         }
+
         select {
             width: 100%;
             padding: 8px;
@@ -54,33 +56,34 @@
 <body>
 
 
-<div class="container">
-    <h1 align="center" style="font-size:xx-large;">UPDATE INFORMATION</h1>
-    <?php 
+    <div class="mx-auto p-4 max-w-screen-xl pt-10">
+        <h1 align="center" style="font-size:xx-large;">UPDATE INFORMATION</h1>
+        <?php
         if (isset($_COOKIE['msg'])) {
-    ?>
-    <div class="alert alert-danger">
-  <strong align="center" style="color:red; font-size:large">Danger!</strong> <?php echo $_COOKIE['msg']; ?>
-</div>
-    <?php        
+        ?>
+            <div class="alert alert-danger">
+                <strong align="center" style="color:red; font-size:large">Danger!</strong> <?php echo $_COOKIE['msg']; ?>
+            </div>
+        <?php
         }
-     ?>
-    <hr>
+        ?>
+        <hr>
         <form action="?mod=movie&act=update" method="POST" role="form">
             <div class="form-group">
                 <label for="">Movie ID</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's id" name="movie_id" value="<?php echo $data['movie_id']?>" readonly>
+                <input type="text" class="form-control" id="" placeholder="Movie's id" name="movie_id" value="<?php echo $data['movie_id'] ?>" readonly>
             </div>
             <div class="form-group">
                 <label for="">Title</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's title" name="title" value="<?= $data['title']?>" required>
+                <input type="text" class="form-control" id="" placeholder="Movie's title" name="title" value="<?= $data['title'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="">Film Url</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's url" name="film_url" value="<?= $data['film_url']?>" required>
+                <input type="text" class="form-control" id="" placeholder="Movie's url" name="film_url" value="<?= $data['film_url'] ?>" required>
             </div>
             <div class="form-group">
             <label for="">Movie Type</label>
+                <label for="">Movie Type</label>
                 <select name="movie_type" required>
                     <option value="tvSeries" <?php if ($data['movie_type'] === 'tvSeries') echo 'selected'; ?>>TV Series</option>
                     <option value="movie" <?php if ($data['movie_type'] === 'movie') echo 'selected'; ?>>Movie</option>
@@ -95,28 +98,29 @@
             </div>
             <div class="form-group">
                 <label for="">IMDB Rating</label>
-                <input type="text" class="form-control" id="" placeholder="imdb rating" name="imdb_rating" value="<?= $data['imdb_rating']?>" required>
+                <input type="text" class="form-control" id="" placeholder="imdb rating" name="imdb_rating" value="<?= $data['imdb_rating'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="">Poster link</label>
-                <input type="text" class="form-control" id="" placeholder="Poster link" name="poster" value="<?= $data['poster']?>" required>
+                <input type="text" class="form-control" id="" placeholder="Poster link" name="poster" value="<?= $data['poster'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="">Released Year</label>
-                <input type="text" class="form-control" id="" placeholder="Released Year" name="released_year" value="<?= $data['released_year']?>" required>
+                <input type="text" class="form-control" id="" placeholder="Released Year" name="released_year" value="<?= $data['released_year'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="">Genre</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's genre" name="genre" value="<?= $data['genre']?>" required>
+                <input type="text" class="form-control" id="" placeholder="Movie's genre" name="genre" value="<?= $data['genre'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="">Runtime</label>
-                <input type="text" class="form-control" id="" placeholder="Movie's length" name="runtime" value="<?= $data['runtime']?>" required>
+                <input type="text" class="form-control" id="" placeholder="Movie's length" name="runtime" value="<?= $data['runtime'] ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 </body>
+
 </html>
 
 <?php require_once "views/footer.php" ?>
