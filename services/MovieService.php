@@ -14,8 +14,7 @@
         }
 
         public function getMovieByName($name){
-            $query = "SELECT * FROM Movie WHERE title LIKE '%".$name."%';";
-            $data = $this->dbConn->getQuery($query);
+            $data = $this->dbConn->SearchByName($name);
             return $data;
         }
         // get movie's detail information
@@ -35,15 +34,13 @@
         }
 
         public function getMovieByGenre($genre){
-            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where genre LIKE '%" . $genre . "%' LIMIT 15";
-            $data = $this->dbConn->getQuery($query);
-            // echo $data['title'];
+            $data = $this->dbConn->SearchByGenre($genre);
             return $data; 
         }
         public function insertMovie(Movie $movie) : bool{
-            $query = "INSERT INTO Movie VALUES (" . $movie->__toString() . ");";
-            echo $query;
-            $result = $this->dbConn->insertQuery($query);
+            // $query = "INSERT INTO Movie VALUES (" . $movie->__toString() . ");";
+            // echo $query;
+            $result = $this->dbConn->insertQuery($movie);
             return $result;
         }
     }
