@@ -1,5 +1,6 @@
 <?php
 require_once('IDatabase.php');
+require_once('models/Movie.php');
 class DBConn implements IDatabase
 {
     var $conn;
@@ -10,85 +11,154 @@ class DBConn implements IDatabase
         $password = '15112002'; // change your password here
         $database = 'imdb';
 
-        $port = "3306";
-        try{
-           $this->conn = new PDO("mysql:host=$servername;dbname=$database",$username,$password); 
-           $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        }catch(PDOException $e){
-            echo "connection failed: ". $e->getMessage();
+        //$port = "3307";
+        try {
+            $this->conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            echo "connection failed: " . $e->getMessage();
         }
-        // $this->conn = mysqli_connect($servername, $username, $password, $database, $port);
-
-        // if (!$this->conn) {
-        //     echo ('Connection failed: ' . mysqli_connect_error());
-        // }
-        // $query = "CREATE DATABASE IF NOT EXISTS imdb";
-        // if (!mysqli_query($this->conn, $query)) {
-        //     echo "Error: " . mysqli_error($this->conn);
-        // } 
-        // $db_selected = mysqli_select_db($this->conn,$database);
-        // if (!$db_selected){
-        //     die("failed using imdb");
-        // }
     }
 
-    
     public function getQuery($query)
     {
-        try{
+        try {
             $stmt = $this->conn->prepare($query);
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $stmt->execute();
-            $data = $stmt->fetchAll();
-            return $data;// return data array     
-        }catch(PDOException $e){
-            echo $e->getMessage();
+            $data = [];
+            while ($row = $stmt->fetch()) {
+                $data[] = $row;
+            }
+
+            return $data;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
         }
     }
-    public function insertQuery($query) : bool {
-        // $result = mysqli_query($this->conn, $query);
-        // return $result;
-        return false;
-    }
-    public function deleteQuery($query):bool{
-        // $result = mysqli_query($this->conn, $query);
-        // return $result;
-        return false;
 
-    }
-    public function updateQuery($query):bool{
-        // $result = mysqli_query($this->conn, $query);
-        // return $result;
-        return false;
-
-    }
-    public function searchByGenre($genre) {
+    public function insertQuery(Movie $movie): bool
+    {
+        $query = "INSERT INTO Movie (movie_id,title,film_url,movie_type,imdb_rating,runtime,released_year,genre,poster) VALUES (:movie_id,:title,:film_url,:movie_type,:imdb_rating,:runtime,:released_year,:genre,:poster) ";
         try{
-
-            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where genre LIKE :genre LIMIT 15";
-            $stmt = $this ->conn->prepare($query);
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":movie_id",$movie->getMovieId());
+            $stmt->bindParam(":title",$movie->getTitle());
+            $stmt->bindParam(":film_url",$movie->getFilmUrl());
+            $stmt->bindParam(":movie_type",$movie->getMovieType());
+            $stmt->bindParam(":imdb_rating",$movie->getImdbRating());
+            $stmt->bindParam(":runtime",$movie->getRuntime());
+            $stmt->bindParam(":released_year",$movie->getReleasedYear());
+            $stmt->bindParam(":genre",$movie->getGenre());
+            $stmt->bindParam(":poster",$movie->getPoster());
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $stmt->execute(array('genre'=>$genre));
-            $data = $stmt->fetchAll();
-            return $data;
+            $isInsertSuccessfull = $stmt->execute();
+            return $isInsertSuccessfull;
         }catch(PDOException $e){
             echo $e->getMessage();
-            return [];
+            return false;
         }
-
-
+        return false;
     }
-    public function searchByName($title) : array {
-        try{
-            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where title LIKE :title";
-            $stmt = $this ->conn->prepare($query);
+    public function deleteQuery($movie_id): bool
+    {
+        try {
+            $stmt = $this->conn->prepare("DELETE FROM Movie WHERE movie_id = :movie_id");
+            $stmt->bindParam(':movie_id', $movie_id);
+            $stmt->execute();
+
+            $rowCount = $stmt->rowCount(); // Number of affected rows
+            if ($rowCount > 0) {
+                return true; // Query executed successfully
+            } else {
+                return false; // No rows affected, query may not have matched any records
+            }
+        } catch (PDOException $e) {
+            // Handle the exception or log the error
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function SearchByID($movie_id)
+    {
+        try {
+            $stmt = $this->conn->prepare("SELECT movie_id, title, imdb_rating, poster, released_year, genre, movie_type, runtime, film_url from Movie where movie_id = :movie_id");
+            $stmt->bindParam(':movie_id', $movie_id);
+            $stmt->execute();
+
+            $data = $stmt->fetch();
+            return $data;
+        } catch (PDOException $e) {
+            // Handle the exception or log the error
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function SearchByGenre($genre)
+    {
+        try {
+            $genreFormat = "%".$genre."%";
+            $stmt = $this->conn->prepare("SELECT movie_id, title, imdb_rating, poster, released_year, genre, movie_type, runtime, film_url from Movie where genre like :genre LIMIT 15");
+            $stmt->bindParam(':genre', $genreFormat);
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $stmt->execute(array('title'=>"%".$title."%"));
+            $stmt->execute();
+
             $data = $stmt->fetchAll();
             return $data;
-        }catch(PDOException $e){
-            echo $e->getMessage();
-            return [];
+        } catch (PDOException $e) {
+            // Handle the exception or log the error
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function SearchByName($title)
+    {
+        try {
+            $titleFormat = "%".$title."%";
+            $stmt = $this->conn->prepare("SELECT movie_id, title, imdb_rating, poster, released_year, genre, movie_type, runtime, film_url from Movie where title like :title LIMIT 15");
+            $stmt->bindParam(':title', $titleFormat);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            $data = $stmt->fetchAll();
+            return $data;
+        } catch (PDOException $e) {
+            // Handle the exception or log the error
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function updateQuery($data): bool
+    {
+        try {
+            $stmt = $this->conn->prepare("UPDATE Movie SET title = :title , film_url = :film_url, movie_type = :movie_type, imdb_rating = :imdb_rating, poster = :poster, released_year = :released_year, genre = :genre, runtime =:runtime WHERE movie_id = :movie_id");
+
+            $stmt->bindParam(':movie_id', $data['movie_id']);
+            $stmt->bindParam(':title', $data['title']);
+            $stmt->bindParam(':film_url', $data['film_url']);
+            $stmt->bindParam(':movie_type', $data['movie_type']);
+            $stmt->bindParam(':imdb_rating', $data['imdb_rating']);
+            $stmt->bindParam(':poster', $data['poster']);
+            $stmt->bindParam(':released_year', $data['released_year']);
+            $stmt->bindParam(':genre', $data['genre']);
+            $stmt->bindParam(':runtime', $data['runtime']);
+
+            $stmt->execute();
+
+            $rowCount = $stmt->rowCount(); // Number of affected rows
+            if ($rowCount > 0) {
+                return true; // Query executed successfully
+            } else {
+                return false; // No rows affected, query may not have matched any records
+            }
+        } catch (PDOException $e) {
+            // Handle the exception or log the error
+            echo "Error: " . $e->getMessage();
+            return false;
         }
     }
 }

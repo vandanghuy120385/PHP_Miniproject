@@ -8,46 +8,39 @@
             //$this->dbConn->connect();
         }
         public function getTopMovie(){
-            $query = "SELECT movie_id, title, imdb_rating, poster from Movie where released_year = 2022 and imdb_rating >= 7 order by imdb_rating desc limit 5;";
+            $query = "SELECT movie_id, title, imdb_rating, poster from Movie where released_year >= 2000 and imdb_rating >= 7 order by imdb_rating desc limit 5;";
             $data = $this->dbConn->getQuery($query);
             return $data;
         }
 
         public function getMovieByName($name){
-            $query = "SELECT * FROM Movie WHERE title LIKE '%".$name."%';";
-            $data = $this->dbConn->searchByName($name);
+            $data = $this->dbConn->SearchByName($name);
             return $data;
         }
         // get movie's detail information
         public function getInfo($movie_id){
-            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre, movie_type, runtime, film_url from Movie where movie_id = '".$movie_id."';";
-            $data = $this->dbConn->getQuery($query);
+            $data = $this->dbConn->SearchByID($movie_id);
             return $data;
         }
         // update movie's detail information
         public function edit($data ){
-            $query =  "UPDATE Movie SET title = '".$data['title']."', film_url = '".$data['film_url']."', movie_type ='".$data['movie_type']."', imdb_rating = ".$data['imdb_rating'].",poster = '".$data['poster']."', released_year = ".$data['released_year'].", genre = '".$data['genre']."', runtime = ".$data['runtime']." WHERE movie_id = '".$data['movie_id']."';";
-            echo $query;
-            $result = $this->dbConn->updateQuery($query);
+            $result = $this->dbConn->updateQuery($data);
             return $result;    
         }
         // delete movie 
         public function delete($movie_id){
-            $query = "DELETE FROM Movie WHERE movie_id = '".$movie_id."'";
-            $result = $this->dbConn->deleteQuery($query);
+            $result = $this->dbConn->deleteQuery($movie_id);
             return $result; 
         }
 
         public function getMovieByGenre($genre){
-            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where genre LIKE '%" . $genre . "%' LIMIT 15";
-            $data = $this->dbConn->searchByGenre($genre);
-            // echo $data['title'];
+            $data = $this->dbConn->SearchByGenre($genre);
             return $data; 
         }
         public function insertMovie(Movie $movie) : bool{
-            $query = "INSERT INTO Movie VALUES (" . $movie->__toString() . ");";
-            echo $query;
-            $result = $this->dbConn->insertQuery($query);
+            // $query = "INSERT INTO Movie VALUES (" . $movie->__toString() . ");";
+            // echo $query;
+            $result = $this->dbConn->insertQuery($movie);
             return $result;
         }
     }

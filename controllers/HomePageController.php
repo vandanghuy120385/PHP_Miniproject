@@ -25,9 +25,8 @@ if (!session_start()){
         }
         public function getInfo(){
             $movie_id = isset($_GET['id'])?$_GET['id']:'123abc';
-            //echo $movie_id;
-            $dataArray = $this->movieService->getInfo($movie_id);
-            $data = $dataArray[0];
+            $data = $this->movieService->getInfo($movie_id);
+            //print_r($data);
             require_once('views/detail.php');
         }
         public function delete(){
@@ -43,8 +42,7 @@ if (!session_start()){
        }
        public function edit(){
             $movie_id = isset($_GET['id'])?$_GET['id']:'123abc';
-            $dataArray = $this->movieService->getInfo($movie_id);
-            $data = $dataArray[0];
+            $data = $this->movieService->getInfo($movie_id);
             require_once("views/edit.php");
        }
        public function update(){
@@ -77,6 +75,11 @@ if (!session_start()){
         public function store(){
             require_once('models/Movie.php');
             $errors = [
+                "title" => "Title is required",
+                "film_url"=>"Film URL is required",
+                "movie_type"=>"Movie type is required",
+                "poster" => "Poster is required",
+                "genre"=> "Genre is required",
                 "released_year" => "Released year must be number",
                 "imdb_rating" => "IMDB Rating must be number",
                 "runtime" => "Runtime must be number"
@@ -84,18 +87,39 @@ if (!session_start()){
             $movie_id = uniqid('tt');
             // echo $movie_id;
             $title = $_POST['title'];
+            $title = $this->validateInput($title);
+
             $film_url = $_POST['url'];
+            $film_url = $this->validateInput($film_url);
+
             $movie_type = $_POST['movie_type'];
+            $movie_type = $this->validateInput($movie_type);
+
             $imdbRating = $_POST['imdb_rating'];
+            $imdbRating = $this->validateInput($imdbRating);
+
             $runtime = $_POST['runtime'];
+            $runtime = $this->validateInput($runtime);
+
             $released_year  = $_POST['released_year'];
+            $released_year = $this->validateInput($released_year);
+
             $genre = $_POST['genre'];
+            $genre = $this->validateInput($genre);
+
             $poster = $_POST['poster'];
+            $poster = $this->validateInput($poster);
+            if ($movie_type === "default"){
+                $_SESSION['MOVIE_TYPE_ERROR'] = $errors['movie_type'];
+                $_SESSION['data'] = $_POST;
+                header('location: index.php?mod=movie&act=add');
+            }
             if (is_string($imdbRating) || floatval($imdbRating) < 0) {
                 $_SESSION['imdbError'] = $errors['imdb_rating'];
                 $_SESSION['data'] = $_POST;
                 header('location: index.php?mod=movie&act=add');
             }
+
             if (is_string($runtime) || intval($runtime) < 0) {
                 $_SESSION['runtimeError'] = $errors['runtime'];
                 $_SESSION['data'] = $_POST;
@@ -120,8 +144,16 @@ if (!session_start()){
                 header('location: index.php?mod=movie&act=add');
             }
         }
+        public function validateInput($data){
+            $cleanData = trim($data);
+            $cleanData = stripslashes($cleanData);
+            $cleanData = htmlspecialchars($cleanData);
+            return $cleanData;
+        }
         public function search($name){
+            $name = $this->validateInput($name);
             $foundResult = $this->movieService->getMovieByName($name);
             require_once('views/search/SearchResult.php');
         }
+        
     }
