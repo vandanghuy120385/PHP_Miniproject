@@ -34,7 +34,7 @@ function create_flash_message(string $name, string $message, string $type): void
 */
 function format_flash_message(array $flash_message): string
 {
-    return sprintf('<div class="alert alert-%s bg-red-500 text-white p-4 rounded-md">%s</div>',
+    return sprintf('<div class="alert alert-%s bg-blue-500 text-white p-4 rounded-md">%s</div>',
         $flash_message['type'],
         $flash_message['message']
     );

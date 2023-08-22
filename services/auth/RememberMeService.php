@@ -15,8 +15,8 @@ class RememberMeService
     function insert_user_token(int $user_id, string $selector, string $hashed_validator, string $expiry): bool
     {
         $user_token = new UserToken($user_id, $selector, $hashed_validator, $expiry);
-        $sql = "INSERT INTO UserToken(user_id, selector, hashed_validator, expiry)
-            VALUES(?, ?, ?, ?)";
+        $sql = 'INSERT INTO UserToken(user_id, selector, hashed_validator, expiry)
+            VALUES(:user_id, :selector, :hashed_validator, :expiry)';
 
         $statement = $this->DBConn->conn->prepare($sql);
 
@@ -25,33 +25,35 @@ class RememberMeService
         $hashedValidator = $user_token->getHashedValidator();
         $expiry = $user_token->getExpiry();
 
-        $statement->bind_param('isss', $userId, $selector, $hashedValidator, $expiry);
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':selector', $selector);
+        $statement->bindValue(':hashed_validator', $hashedValidator);
+        $statement->bindValue(':expiry', $expiry);
 
         return $statement->execute();
     }
     function find_user_token_by_selector(string $selector)
     {
-        $sql = "SELECT id, selector, hashed_validator, user_id, expiry
-            FROM UserToken
-            WHERE selector = ? AND
-                expiry >= now()
-            LIMIT 1";
+        $sql = 'SELECT id, selector, hashed_validator, user_id, expiry
+                FROM UserToken
+                WHERE selector = :selector AND
+                    expiry >= now()
+                LIMIT 1';
 
         $statement = $this->DBConn->conn->prepare($sql);
 
-        $statement->bind_param('s', $selector);
+        $statement->bindValue(':selector', $selector);
 
         $statement->execute();
 
-        $result = $statement->get_result();
-        return $result->fetch_assoc();
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
     function delete_user_token(int $user_id): bool
     {
-        $sql = "DELETE FROM UserToken WHERE user_id = ?";
+        $sql = "DELETE FROM UserToken WHERE user_id = :user_id";
         $statement = $this->DBConn->conn->prepare($sql);
 
-        $statement->bind_param('i', $user_id);
+        $statement->bindValue(':user_id', $user_id);
 
         return $statement->execute();
     }
@@ -62,24 +64,19 @@ class RememberMeService
         if (!$tokens) {
             return null;
         }
-        
-        $sql = "SELECT User.id, username
-        FROM User
-        INNER JOIN UserToken ON user_id = User.id
-        WHERE selector = ? AND
-            expiry > now()
-        LIMIT 1";
+
+        $sql = 'SELECT User.id, username
+            FROM User
+            INNER JOIN UserToken ON user_id = User.id
+            WHERE selector = :selector AND
+                expiry > now()
+            LIMIT 1';
+
         $statement = $this->DBConn->conn->prepare($sql);
-        if ($statement != false) {
-            $selector = $tokens[0];
-            $isSuccess = $statement->bind_param('s', $selector);
-            if ($isSuccess === true) {
-                $statement->execute();
-                $result = $statement->get_result();
-                // return user_id and username
-                return $result->fetch_assoc();
-            }
-        }
+        $statement->bindValue(':selector', $tokens[0]);
+        $statement->execute();
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
     function token_is_valid(string $token): bool
     {
