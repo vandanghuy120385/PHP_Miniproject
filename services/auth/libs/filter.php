@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Sanitize and validate data
  * @param array $data
