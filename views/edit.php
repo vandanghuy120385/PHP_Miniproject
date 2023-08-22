@@ -80,10 +80,17 @@
                 <input type="text" class="form-control" id="" placeholder="Movie's url" name="film_url" value="<?= $data['film_url']?>" required>
             </div>
             <div class="form-group">
-                <label for="">Movie Type</label>
-                <select name="type" required>
-                    <option value="tvSerie">TV Serie</option>
-                    <option value="Movie">Movie</option>
+            <label for="">Movie Type</label>
+                <select name="movie_type" required>
+                    <option value="tvSeries" <?php if ($data['movie_type'] === 'tvSeries') echo 'selected'; ?>>TV Series</option>
+                    <option value="movie" <?php if ($data['movie_type'] === 'movie') echo 'selected'; ?>>Movie</option>
+                    <option value="tvMiniSeries" <?php if ($data['movie_type'] === 'tvMiniSeries') echo 'selected'; ?>> tvMiniSeries</option>
+                    <option value="tvSpecial" <?php if ($data['movie_type'] === 'tvSpecial') echo 'selected'; ?>> tvSpecial</option>
+                    <option value="tvMovie" <?php if ($data['movie_type'] === 'tvMovie') echo 'selected'; ?>> tvMovie</option>
+                    <option value="video" <?php if ($data['movie_type'] === 'video') echo 'selected'; ?>> video</option>
+                    <option value="tvEpisode" <?php if ($data['movie_type'] === 'tvEpisode') echo 'selected'; ?>> tvEpisode</option>
+                    <option value="videoGame" <?php if ($data['movie_type'] === 'videoGame') echo 'selected'; ?>> videoGame</option>
+                    <option value="short" <?php if ($data['movie_type'] === 'short') echo 'selected'; ?>> short</option>
                 </select>
             </div>
             <div class="form-group">

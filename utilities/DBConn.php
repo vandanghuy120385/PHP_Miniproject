@@ -8,12 +8,12 @@ class DBConn
         $username = 'root';
         $password = ''; // change your password here
         $database = 'imdb';
-<<<<<<< Updated upstream
-        $this->conn = mysqli_connect($servername, $username, $password);
-=======
+// <<<<<<< Updated upstream
+//         $this->conn = mysqli_connect($servername, $username, $password);
+// =======
         $port = "3307";
         $this->conn = mysqli_connect($servername, $username, $password, $database, $port);
->>>>>>> Stashed changes
+// >>>>>>> Stashed changes
         if (!$this->conn) {
             echo ('Connection failed: ' . mysqli_connect_error());
         }
