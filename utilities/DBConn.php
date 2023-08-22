@@ -31,15 +31,20 @@ class DBConn implements IDatabase
         //     die("failed using imdb");
         // }
     }
+
+    
     public function getQuery($query)
     {
-        $stmt = $this->conn->prepare($query);
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $stmt->execute();
-        $data = $stmt->fetch();
-        return $data;// return data array
+        try{
+            $stmt = $this->conn->prepare($query);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            $data = $stmt->fetchAll();
+            return $data;// return data array     
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
     }
-
     public function insertQuery($query) : bool {
         // $result = mysqli_query($this->conn, $query);
         // return $result;
@@ -56,5 +61,34 @@ class DBConn implements IDatabase
         // return $result;
         return false;
 
+    }
+    public function searchByGenre($genre) {
+        try{
+
+            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where genre LIKE :genre LIMIT 15";
+            $stmt = $this ->conn->prepare($query);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute(array('genre'=>$genre));
+            $data = $stmt->fetchAll();
+            return $data;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return [];
+        }
+
+
+    }
+    public function searchByName($title) : array {
+        try{
+            $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where title LIKE :title";
+            $stmt = $this ->conn->prepare($query);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute(array('title'=>"%".$title."%"));
+            $data = $stmt->fetchAll();
+            return $data;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return [];
+        }
     }
 }

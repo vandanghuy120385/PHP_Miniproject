@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 if (!session_start()){
     session_start();
 }

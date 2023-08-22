@@ -15,7 +15,7 @@
 
         public function getMovieByName($name){
             $query = "SELECT * FROM Movie WHERE title LIKE '%".$name."%';";
-            $data = $this->dbConn->getQuery($query);
+            $data = $this->dbConn->searchByName($name);
             return $data;
         }
         // get movie's detail information
@@ -40,7 +40,7 @@
 
         public function getMovieByGenre($genre){
             $query = "SELECT movie_id, title, imdb_rating, poster, released_year, genre from Movie where genre LIKE '%" . $genre . "%' LIMIT 15";
-            $data = $this->dbConn->getQuery($query);
+            $data = $this->dbConn->searchByGenre($genre);
             // echo $data['title'];
             return $data; 
         }
