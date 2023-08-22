@@ -59,10 +59,10 @@ require_once "views/header.php";
             <p class="my-2"><strong class="mx-2">Genre: </strong> <?php echo $data['imdb_rating'] ?> </p>
             <p class="my-2"><strong class="mx-2">Runtime:</strong> <?php echo $data['runtime'] . "min" ?> </p>
             <div class="button-container">
-                <a href="?mod=movie&act=edit&id=<?php echo "$data[movie_id]" ?>">
+                <a href="?mod=movie&act=edit&id=<?php echo $data['movie_id'] ?>">
                     <button class="edit-button">Edit</button>
                 </a>
-                <a href="?mod=movie&act=delete&id=<?php echo "$data[movie_id]" ?>">
+                <a href="?mod=movie&act=delete&id=<?php echo $data['movie_id'] ?>">
                     <button class="delete-button">Delete</button>
                 </a>
             </div>
