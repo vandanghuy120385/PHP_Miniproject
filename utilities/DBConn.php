@@ -11,64 +11,45 @@ class DBConn implements IDatabase
         $database = 'imdb';
 
         $port = "3306";
-        $this->conn = mysqli_connect($servername, $username, $password, $database, $port);
+        try{
+           $this->conn = new PDO("mysql:host=$servername;dbName=$database",$username,$password); 
+           $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        }catch(PDOException $e){
+            echo "connection failed: ". $e->getMessage();
+        }
+        // $this->conn = mysqli_connect($servername, $username, $password, $database, $port);
 
-        if (!$this->conn) {
-            echo ('Connection failed: ' . mysqli_connect_error());
-        }
-        $query = "CREATE DATABASE IF NOT EXISTS imdb";
-        if (!mysqli_query($this->conn, $query)) {
-            echo "Error: " . mysqli_error($this->conn);
-        } 
-        $db_selected = mysqli_select_db($this->conn,$database);
-        if (!$db_selected){
-            die("failed using imdb");
-        }
-    }
-    public function connect()
-    {
-
-        $query = file_get_contents("SQLScripts/Movie.sql");
-        if (mysqli_query($this->conn, $query)) {
-            echo "Movie table created\n";
-        } else {
-            echo "error: " . $this->conn->error;
-        }
-        $query = file_get_contents("SQLScripts/User.sql");
-        if (mysqli_query($this->conn, $query)) {
-            echo "User table created\n";
-        } else {
-            echo "error: " . $this->conn->error;
-        }
-        $query = file_get_contents("SQLScripts/Comment.sql");
-        if (mysqli_query($this->conn, $query)) {
-            echo "Comment table created\n";
-        } else {
-            echo "error: " . $this->conn->error;
-        }
-        mysqli_close($this->conn);
-        // echo $query;
+        // if (!$this->conn) {
+        //     echo ('Connection failed: ' . mysqli_connect_error());
+        // }
+        // $query = "CREATE DATABASE IF NOT EXISTS imdb";
+        // if (!mysqli_query($this->conn, $query)) {
+        //     echo "Error: " . mysqli_error($this->conn);
+        // } 
+        // $db_selected = mysqli_select_db($this->conn,$database);
+        // if (!$db_selected){
+        //     die("failed using imdb");
+        // }
     }
     public function getQuery($query)
     {
-        $result =  mysqli_query($this->conn, $query);
-        $data = array();
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        return $data;
     }
 
     public function insertQuery($query) : bool {
-        $result = mysqli_query($this->conn, $query);
-        return $result;
+        // $result = mysqli_query($this->conn, $query);
+        // return $result;
+        return false;
     }
     public function deleteQuery($query):bool{
-        $result = mysqli_query($this->conn, $query);
-        return $result;
+        // $result = mysqli_query($this->conn, $query);
+        // return $result;
+        return false;
+
     }
     public function updateQuery($query):bool{
-        $result = mysqli_query($this->conn, $query);
-        return $result;
+        // $result = mysqli_query($this->conn, $query);
+        // return $result;
+        return false;
+
     }
 }
