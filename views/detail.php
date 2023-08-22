@@ -68,6 +68,19 @@ require_once "views/header.php";
             </div>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var deleteButton = document.querySelector('.delete-button');
+      deleteButton.addEventListener('click', function() {
+        var confirmation = confirm('Are you sure you want to delete?');
+        if (confirmation) {
+          alert('Deleted successfully!');
+        }
+      });
+    });
+  </script>   
+
 </body>
 
 </html>

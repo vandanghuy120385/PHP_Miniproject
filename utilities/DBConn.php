@@ -31,6 +31,7 @@ class DBConn implements IDatabase
         //     die("failed using imdb");
         // }
     }
+
     public function getQuery($query)
     {
         $stmt = $this->conn->prepare($query);
@@ -39,22 +40,37 @@ class DBConn implements IDatabase
         $data = $stmt->fetch();
         return $data;// return data array
     }
-
+ 
     public function insertQuery($query) : bool {
-        // $result = mysqli_query($this->conn, $query);
-        // return $result;
-        return false;
+         // $result = mysqli_query($this->conn, $query);
+         // return $result;
+         return false;
     }
     public function deleteQuery($query):bool{
-        // $result = mysqli_query($this->conn, $query);
-        // return $result;
-        return false;
-
+         // $result = mysqli_query($this->conn, $query);
+         // return $result;
+         //return false;
+         try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            
+            $rowCount = $stmt->rowCount(); // Number of affected rows
+            if ($rowCount > 0) {
+                return true; // Query executed successfully
+            } else {
+                return false; // No rows affected, query may not have matched any records
+            }
+        } catch (PDOException $e) {
+            // Handle the exception or log the error
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+ 
     }
     public function updateQuery($query):bool{
-        // $result = mysqli_query($this->conn, $query);
-        // return $result;
-        return false;
-
+         // $result = mysqli_query($this->conn, $query);
+         // return $result;
+         return false;
+ 
     }
 }

@@ -82,6 +82,7 @@
                 <input type="text" class="form-control" id="" placeholder="Movie's url" name="film_url" value="<?= $data['film_url'] ?>" required>
             </div>
             <div class="form-group">
+            <label for="">Movie Type</label>
                 <label for="">Movie Type</label>
                 <select name="movie_type" required>
                     <option value="tvSeries" <?php if ($data['movie_type'] === 'tvSeries') echo 'selected'; ?>>TV Series</option>
