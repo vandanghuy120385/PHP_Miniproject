@@ -39,8 +39,8 @@ class RememberMeService
 
         $statement = $this->DBConn->conn->prepare($sql);
 
-        $statement->bind_param('s', $selector);
-
+        $statement->bindParam('s', $selector);
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
         $statement->execute();
 
         $result = $statement->get_result();

@@ -12,7 +12,7 @@ class DBConn implements IDatabase
 
         $port = "3306";
         try{
-           $this->conn = new PDO("mysql:host=$servername;dbName=$database",$username,$password); 
+           $this->conn = new PDO("mysql:host=$servername;dbname=$database",$username,$password); 
            $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         }catch(PDOException $e){
             echo "connection failed: ". $e->getMessage();
@@ -33,6 +33,11 @@ class DBConn implements IDatabase
     }
     public function getQuery($query)
     {
+        $stmt = $this->conn->prepare($query);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        $data = $stmt->fetch();
+        return $data;// return data array
     }
 
     public function insertQuery($query) : bool {
