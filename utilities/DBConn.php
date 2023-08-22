@@ -17,20 +17,8 @@ class DBConn implements IDatabase
         }catch(PDOException $e){
             echo "connection failed: ". $e->getMessage();
         }
-        // $this->conn = mysqli_connect($servername, $username, $password, $database, $port);
-
-        // if (!$this->conn) {
-        //     echo ('Connection failed: ' . mysqli_connect_error());
-        // }
-        // $query = "CREATE DATABASE IF NOT EXISTS imdb";
-        // if (!mysqli_query($this->conn, $query)) {
-        //     echo "Error: " . mysqli_error($this->conn);
-        // } 
-        // $db_selected = mysqli_select_db($this->conn,$database);
-        // if (!$db_selected){
-        //     die("failed using imdb");
-        // }
     }
+
     public function getQuery($query)
     {   
         try{
@@ -57,7 +45,7 @@ class DBConn implements IDatabase
     }
     public function deleteQuery($movie_id):bool{
 
-         try {
+        try {
             $stmt = $this->conn->prepare("DELETE FROM Movie WHERE movie_id = :movie_id");
             $stmt->bindParam(':movie_id',$movie_id);
             $stmt->execute();
@@ -77,7 +65,18 @@ class DBConn implements IDatabase
     }
 
     public function SearchByID($movie_id){
-
+        try {
+            $stmt = $this->conn->prepare("SELECT movie_id, title, imdb_rating, poster, released_year, genre, movie_type, runtime, film_url from Movie where movie_id = :movie_id");
+            $stmt->bindParam(':movie_id',$movie_id);
+            $stmt->execute();
+            
+            $data = $stmt->fetch();
+            return $data;
+        } catch (PDOException $e) {
+            // Handle the exception or log the error
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 
     public function SearchByGenre($genre){
