@@ -49,7 +49,7 @@ require_once "views/header.php";
 </head>
 
 <body>
-    <div class="container">
+    <div class="container"> 
         <img src="<?php echo $data['poster'] ?>" alt="Movie Poster" class="poster">
         <div class="movie-info">
             <h2 style="font-weight: bold; color: blue; font-size: 24px;">Title: <?php echo $data['title'] ?> </h2>

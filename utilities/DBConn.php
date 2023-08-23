@@ -1,15 +1,16 @@
 <?php
 require_once('IDatabase.php');
 require_once('models/Movie.php');
+require_once('config.php');
 class DBConn implements IDatabase
 {
     var $conn;
     public function __construct()
     {
-        $servername = 'localhost';
-        $username = 'root';
-        $password = '15112002'; // change your password here
-        $database = 'imdb';
+        $servername = DB_HOST;
+        $username = DB_USER;
+        $password = DB_PASSWORD; // change your password here
+        $database = DB_NAME;
 
         //$port = "3307";
         try {
