@@ -1,6 +1,6 @@
 <?php
 require_once('IDatabase.php');
-require_once('models/Movie.php');
+// require_once('models/Movie.php');
 require_once('config.php');
 class DBConn implements IDatabase
 {
@@ -39,7 +39,7 @@ class DBConn implements IDatabase
         }
     }
 
-    public function insertQuery(Movie $movie): bool
+    public function insertQuery($movie): bool
     {
         $query = "INSERT INTO Movie (movie_id,title,film_url,movie_type,imdb_rating,runtime,released_year,genre,poster) VALUES (:movie_id,:title,:film_url,:movie_type,:imdb_rating,:runtime,:released_year,:genre,:poster) ";
         try{
